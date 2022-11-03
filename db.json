@@ -1,9 +1,35 @@
 {
-  "posts": [
+  "place": [
     {
       "id": 1,
       "title": "json-server",
       "author": "typicode"
+    },
+    {
+      "name": "dwsfer",
+      "contactNumber": "fghbtg",
+      "address": "fedf",
+      "city": "edfer",
+      "state": "rgtrt",
+      "pincode": "tgry",
+      "latitude": null,
+      "longitude": null,
+      "costAdult": 45,
+      "costKid": 35,
+      "id": 2
+    },
+    {
+      "name": "dwfr",
+      "contactNumber": "thyt",
+      "address": "edrfre",
+      "city": "fefre",
+      "state": "tfhy",
+      "pincode": "tfyt",
+      "latitude": null,
+      "longitude": null,
+      "costAdult": 45,
+      "costKid": 35,
+      "id": 3
     }
   ],
   "comments": [

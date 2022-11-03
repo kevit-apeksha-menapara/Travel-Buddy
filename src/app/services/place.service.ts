@@ -7,7 +7,7 @@ import { IPlace } from "app/utils/model/place";
   })
   
 export class PlaceService {
-    placeServiceUrl = 'localhost:3000/place';
+    placeServiceUrl = 'http://localhost:3000/place';
 
     constructor(private http: HttpClient) {}
 

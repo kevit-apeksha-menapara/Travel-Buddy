@@ -1,45 +1,30 @@
 {
   "place": [
     {
-      "id": 1,
-      "title": "json-server",
-      "author": "typicode"
-    },
-    {
-      "name": "dwsfer",
-      "contactNumber": "fghbtg",
-      "address": "fedf",
-      "city": "edfer",
-      "state": "rgtrt",
-      "pincode": "tgry",
+      "name": "City Palace",
+      "contactNumber": "9898989898",
+      "address": "Udaipur",
+      "city": "Udaipur",
+      "state": "Rajasthan",
+      "pincode": "360006",
       "latitude": null,
       "longitude": null,
       "costAdult": 45,
-      "costKid": 35,
+      "costKid": 30,
+      "id": 1
+    },
+    {
+      "name": "Museum of folk Art",
+      "contactNumber": "8787878787",
+      "address": "Udaipur",
+      "city": "Udaipur",
+      "state": "Rajasthan",
+      "pincode": "360003",
+      "latitude": null,
+      "longitude": null,
+      "costAdult": 70,
+      "costKid": 50,
       "id": 2
-    },
-    {
-      "name": "dwfr",
-      "contactNumber": "thyt",
-      "address": "edrfre",
-      "city": "fefre",
-      "state": "tfhy",
-      "pincode": "tfyt",
-      "latitude": null,
-      "longitude": null,
-      "costAdult": 45,
-      "costKid": 35,
-      "id": 3
     }
-  ],
-  "comments": [
-    {
-      "id": 1,
-      "body": "some comment",
-      "postId": 1
-    }
-  ],
-  "profile": {
-    "name": "typicode"
-  }
+  ]
 }

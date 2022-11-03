@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from 'app/common-components/dialog/dialog.component';
+import { NotifyService } from 'app/services/notify.service';
 import { PlaceService } from 'app/services/place.service';
 import { ITable } from 'app/utils/model/table.data';
 
@@ -55,27 +56,29 @@ export class PlaceComponent implements OnInit {
             }
           ]
   };
-  placeData = [{
-    name: "City Palace Udaipur",
-    city: "Udaipur",
-    costAdult: "30",
-    costKid: "10"
-  },
-  {
-    name: "Museum of Folk Art",
-    city: "Udaipur",
-    costAdult: "100",
-    costKid: "50"
-  },
-  {
-    name: "City Palace Udaipur",
-    city: "Udaipur",
-    costAdult: "30",
-    costKid: "10"
-  }];
+  // placeData = [{
+  //   name: "City Palace Udaipur",
+  //   city: "Udaipur",
+  //   costAdult: "30",
+  //   costKid: "10"
+  // },
+  // {
+  //   name: "Museum of Folk Art",
+  //   city: "Udaipur",
+  //   costAdult: "100",
+  //   costKid: "50"
+  // },
+  // {
+  //   name: "City Palace Udaipur",
+  //   city: "Udaipur",
+  //   costAdult: "30",
+  //   costKid: "10"
+  // }];
+  placeData = [];
 
   constructor(private dialog: MatDialog,
-              private placeService: PlaceService) { }
+              private placeService: PlaceService,
+              private notificationService: NotifyService) { }
 
   ngOnInit(): void {
     this.placeForm = new FormGroup({
@@ -89,7 +92,9 @@ export class PlaceComponent implements OnInit {
       "longitude": new FormControl(""),
       "costAdult": new FormControl("",Validators.required),
       "costKid": new FormControl("",Validators.required) 
-    })
+    });
+
+    this.getPlace();
   }
 
   onAction({type,index},templateRef?) {
@@ -149,23 +154,36 @@ export class PlaceComponent implements OnInit {
     });
   }
 
+  getPlace(){
+    this.placeService
+      .getPlace()
+        .then((res:any) => {
+          this.placeData = res;
+        })
+        .catch(err => {
+          console.log(err);
+          this.notificationService.sendNotification(
+            "error", 
+            err.error && err.error.message ? err.error.message : "Something went wrong!");
+      });
+  }
+
   addPlace(){
-    console.log("clicked");
     this.dialog.closeAll();
     console.log(this.placeForm.value);
     if(this.actionType == "addPlace"){
       this.placeService
-        .postPlace({...this.placeForm.value})
+        .addPlace({...this.placeForm.value})
         .then(() => {
-          console.log("success");
-          // this._notificationService.sendNotification("success", "Usecase Created Successfully!");
+          this.getPlace();
+          this.notificationService.sendNotification("success", "Place Created Successfully!");
         })
         .catch(err => {
           console.log(err);
-          // this._notificationService.sendNotification(
-          //   "error",
-          //   err.error && err.error.description ? err.error.description : "Something went wrong!"
-          // );
+          this.notificationService.sendNotification(
+            "error",
+            err.error && err.error.description ? err.error.description : "Something went wrong!"
+          );
         });
     }
   }

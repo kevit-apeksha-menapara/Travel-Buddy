@@ -12,10 +12,19 @@ export class PlaceService {
     constructor(private http: HttpClient) {}
 
     getPlace(){
-        return this.http.get<IPlace[]>(this.placeServiceUrl);
+      return new Promise((resolve, reject) => {
+        return this.http.get(this.placeServiceUrl).subscribe(
+          data => {
+            resolve(data);
+          },
+          err => {
+            reject(err);
+          }
+        );
+      });
     }
 
-    postPlace(object:IPlace){
+    addPlace(object:IPlace){
         return new Promise((resolve, reject) => {
             return this.http.post(this.placeServiceUrl, object).subscribe(
               data => {

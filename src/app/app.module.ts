@@ -15,9 +15,8 @@ import { SharedModule } from './utils/shared.module';
 import { MatDialogModule } from '@angular/material/dialog';
 import { PackageComponent } from './package/package.component';
 import { ItemComponent } from './item/item.component';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
+import { NotifyService } from './services/notify.service';
 
 
 @NgModule({
@@ -43,7 +42,7 @@ import { MatMenuModule } from '@angular/material/menu';
     TransferComponent,
     PackageComponent
   ],
-  providers: [],
+  providers: [NotifyService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

@@ -1,0 +1,24 @@
+.mat-input-element{
+    width: 90%;
+    max-width: 90%;
+}
+
+.submitt-btn{
+    float: right;
+    margin-top: 35px; 
+}
+
+.item-add-btn{
+    margin-left: auto;
+    float: right;
+}
+
+.action-mat-icon{
+    mat-icon{
+        color:#cc000a;
+    }
+    button{
+        border: none;
+        background-color: transparent;
+    }
+}

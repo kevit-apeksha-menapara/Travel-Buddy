@@ -1,0 +1,54 @@
+.common-container {
+    padding: 20px;
+    position: relative;
+}
+
+.common-icon-div {
+  cursor: pointer;
+  height: 40px;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(204,0,10);
+  border-radius: 4px !important;
+  border: 2px solid rgb(204,0,10);
+
+  .mat-button-wrapper {
+    display: flex;
+  }
+
+  mat-icon {
+    color: white;
+  }
+}
+
+.common-button{
+  background-color: rgb(204,0,10);
+  color: white;
+  border-radius: 4px;
+  border: 2px solid rgb(204,0,10);
+  font-size: 16px;
+  padding: 3px 9px;
+}
+
+.common-button-secondary{
+  background-color: rgba(0,0,0,0);
+  color: #325170; // secondary-color
+  border-radius: 4px;
+  border: 2px solid rgba(0,0,0,.12);
+  font-size: 16px;
+  padding: 3px 9px;
+}
+
+.common-form-label{
+  color: #707070;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.common-input-box {
+  padding: 10px 15px !important;
+  background-color: #edf2f6;
+  border-radius: 4px;
+}
+

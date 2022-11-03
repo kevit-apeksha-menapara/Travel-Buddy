@@ -1,0 +1,8 @@
+/* You can add global styles to this file, and also import other style files */
+@import "styless/common-theme";
+@import "styless/color-palette";
+@import "styless/mat-override";
+
+:root {
+    --primaryColor: rgb(204,0,10);
+  }

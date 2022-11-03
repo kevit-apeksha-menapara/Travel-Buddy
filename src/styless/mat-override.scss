@@ -1,0 +1,112 @@
+@import "color-palette";
+
+/*Input variants -- Start*/
+
+.mat-form-field {
+  line-height: unset;
+}
+
+.mat-form-field-appearance-fill .mat-form-field-underline::before {
+  background-color: transparent;
+}
+
+.mat-form-field-appearance-fill .mat-form-field-flex {
+  border-radius: 4px !important;
+}
+
+/* Disabled*/
+.mat-form-field-appearance-fill.mat-form-field-disabled .mat-form-field-flex {
+  background-color: white !important;
+}
+
+/* Disabled*/
+.mat-form-field-appearance-fill.mat-form-field-disabled.accent .mat-form-field-flex {
+  background-color: #edf2f6 !important;
+}
+
+/*White*/
+.mat-form-field-appearance-fill .mat-form-field-flex {
+  background-color: white;
+}
+
+/*Accent*/
+.mat-form-field-appearance-fill.accent .mat-form-field-flex {
+  background-color: #edf2f6;
+}
+
+/*Label*/
+.mat-form-field-appearance-fill .mat-form-field-flex {
+  padding: 7px 12px 0 16px !important;
+
+  .mat-form-field-infix {
+    padding: 4px 0 4px 0 !important;
+    border-top: 2px solid transparent !important;
+
+    mat-select {
+      font-size: 16px;
+      line-height: 16px;
+      height: 16px;
+    }
+
+    .mat-form-field-label-wrapper {
+      top: -5px;
+
+      .mat-form-field-label {
+        line-height: 16px;
+        font-size: 14px;
+      }
+    }
+  }
+}
+
+.mat-form-field-appearance-fill .mat-form-field-label {
+  top: unset;
+}
+
+/*No label*/
+.input__label--disabled.mat-form-field-appearance-fill .mat-form-field-flex {
+  .mat-form-field-infix {
+    padding: 2px 0 10px 0 !important;
+    border-top: 2px !important;
+  }
+}
+
+/*No padding*/
+.mat-form-field-wrapper {
+  padding-bottom: 0;
+
+  .mat-form-field-underline {
+    bottom: 0;
+  }
+}
+
+/*Input variants -- End*/
+
+/*Option*/
+mat-option {
+  .mat-option-text {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+  }
+}
+
+/*Checkbox*/
+.mat-checkbox-background,
+.mat-checkbox-frame {
+  border-color: rgb(204,0,10) !important;
+}
+
+/*Select*/
+.mat-form-field-appearance-fill .mat-select-arrow-wrapper {
+  transform: none !important;
+}
+
+
+
+
+
+
+
+
+

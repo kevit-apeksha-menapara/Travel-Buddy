@@ -1,0 +1,48 @@
+<div class="table-content mt-5 p-4 pb-5">
+    <table class="w-100 custom-table">
+        <thead>
+          <tr>
+            <th *ngFor="let row of table.rows" [width]="row.width + '%'" class="pb-2">
+              {{ row.name }}
+            </th>
+            <th *ngIf="table.actions.length > 0" class="pb-2">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="let rule of data; let dIndex = index"
+            height="40px"
+          >
+            <td
+              *ngFor="let row of table.rows; index as rIndex"
+              [width]="row.width + '%'"
+              class="pt-3 pb-3 table-cell"
+            >
+              <span *ngIf="row.type === 'text'">{{ rule[row.value] !== undefined ? rule[row.value] : "N/A" }}</span>
+              <span *ngIf="row.type === 'date'">{{ rule[row.value] !== undefined ? (rule[row.value] | date: "mediumDate") : "N/A" }}</span>
+              <ng-container *ngIf="row.type === 'image'">
+                <img *ngIf="rule.tableImagePath !== undefined" [src]="rule.tableImagePath" />
+                <mat-icon color="primary" *ngIf="rule.tableIcon">{{ rule.tableIcon }}</mat-icon>
+              </ng-container>
+              <ng-container *ngIf="row.type === 'text-icon'">
+                <div class="d-flex align-center">
+                  <mat-icon class="icon-text" color="primary" *ngIf="row.icon">{{ rule.icon }}</mat-icon>
+                  <span>{{ rule[row.value] !== undefined ? rule[row.value] : "N/A" }}</span>
+                </div>
+              </ng-container>
+            </td>
+            <td class="action-mat-icon pt-3 pb-3" *ngIf="table.actions.length > 0">
+              <button mat-icon-button [matMenuTriggerFor]="menu">
+                <mat-icon>more_vert</mat-icon>
+              </button>
+              <mat-menu #menu="matMenu">
+                <button mat-menu-item *ngFor="let action of table.actions" (click)="performAction(action.type, dIndex)">
+                  <mat-icon style="color:#cc000a">{{ action.icon }}</mat-icon>
+                  <span>{{ action.name }}</span>
+                </button>
+              </mat-menu>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+</div>

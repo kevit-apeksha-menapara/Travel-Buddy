@@ -1,0 +1,63 @@
+<div class="common-container">
+    <div class="w-100 d-flex">
+        <div class="w-50">
+            <app-search class="w-100"></app-search>
+        </div>
+        <div class="w-25">
+            <button mat-icon-button class="common-icon-div ml-4" aria-label="add"
+                (click)="openDialog(addTransferDetails, 'addTransfer')">
+                <mat-icon>add</mat-icon>
+            </button>
+        </div>
+    </div>
+    <div>
+        <app-table [data]="transferData" [table]="table" (onAction)="onAction($event,addTransferDetails)">
+        </app-table>
+    </div>
+</div>
+
+<!-- addTransfer form -->
+<ng-template #addTransferDetails>
+    <form [formGroup]="transferForm">
+        <div>
+                <div class="mb-4">
+                    <div class="common-form-label mb-2">Name</div>
+                    <mat-form-field appearance="fill" class="common-input-box">
+                        <input class="mat-input-element" matInput autocomplete="off" type="text"
+                            placeholder="Enter Name" formControlName="name" />
+                    </mat-form-field>
+                </div>
+                <div class="mb-4">
+                    <div class="common-form-label mb-2">Source</div>
+                    <mat-form-field floatLabel="never" appearance="fill" class="common-input-box">
+                        <input class="mat-input-element" matInput autocomplete="off" type="text" formControlName="source"
+                            placeholder="Enter Source" />
+                    </mat-form-field>
+                </div>
+                <div class="mb-4">
+                    <div class="common-form-label mb-2">Destination</div>
+                    <mat-form-field floatLabel="never" appearance="fill" class="common-input-box">
+                        <input class="mat-input-element" matInput autocomplete="off" type="text"
+                            formControlName="destination" placeholder="Enter Destination" />
+                    </mat-form-field>
+                </div>
+                <div class="mb-4">
+                    <div class="common-form-label mb-2">No. of Kilometers</div>
+                    <mat-form-field floatLabel="never" appearance="fill" class="common-input-box">
+                        <input class="mat-input-element" matInput autocomplete="off" type="text"
+                            formControlName="noOfKms" placeholder="Enter Kilometers" />
+                    </mat-form-field>
+                </div>
+                <div class="mb-4">
+                    <div class="common-form-label mb-2">Charge/Km</div>
+                    <mat-form-field floatLabel="never" appearance="fill" class="common-input-box">
+                        <input class="mat-input-element" matInput autocomplete="off" type="text"
+                            formControlName="charge" placeholder="Enter Charge per Kms" />
+                    </mat-form-field>
+                </div>
+                <button type="submit" class="common-button submitt-btn" mat-flat-button color="primary">
+                    Submit
+                </button>
+        </div>
+    </form>
+</ng-template>

@@ -1,0 +1,111 @@
+<div class="common-container">
+  <div class="w-100 d-flex">
+    <div class="w-50">
+      <app-search class="w-100"></app-search>
+    </div>
+    <div class="w-25">
+      <button mat-icon-button class="common-icon-div ml-4" aria-label="add"
+        (click)="openDialog(addPackageDetails, 'addPackage')">
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+  </div>
+  <div>
+    <app-table [data]="packageData" [table]="table" (onAction)="onAction($event,addPackageDetails)">
+    </app-table>
+  </div>
+</div>
+
+<!-- addPackage form -->
+<ng-template #addPackageDetails>
+  <form [formGroup]="packageForm">
+      <div>
+        <div class="d-flex w-100 mb-4">
+          <div class="w-50">
+            <div class="common-form-label mb-2">Name</div>
+            <mat-form-field appearance="fill" class="common-input-box">
+              <input class="mat-input-element" matInput autocomplete="off" type="text" placeholder="Enter Package Name"
+                formControlName="name" />
+            </mat-form-field>
+          </div>
+          <div class="w-50">
+            <div class="common-form-label mb-2">No. of Days</div>
+            <mat-form-field appearance="fill" class="common-input-box">
+              <input class="mat-input-element" matInput autocomplete="off" type="text" placeholder="Enter No. of Days"
+                formControlName="days" />
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="d-flex mb-4">
+          <span class="common-form-label pt-2">Items</span>
+            <button mat-icon-button class="common-icon-div item-add-btn mr-2" aria-label="add"
+              (click)="addItem()">
+              <mat-icon>add</mat-icon>
+            </button>
+        </div>
+        <div class="main-table">
+          <table class="custom-table w-100">
+            <thead class="table-header">
+              <tr class="table-header">
+                <th *ngFor="let row of itemTable.rows" [width]="row.width + '%'">
+                  {{ row.name }}
+                </th>
+                <th *ngIf="itemTable.actions.length > 0" class="text-center">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let rule of data; let dIndex = index" class="table-column">
+                <!-- data-column Starts Here -->
+                <td *ngFor="let row of itemTable.rows; index as rIndex" 
+                [width]="row.width + '%'" class="column">
+                  <!-- Text Type Starts Here -->
+                  <ng-container *ngIf="row.type === 'text' && (rule.isEdit || rule.isCreate)">
+                    <div class="w-100">
+                      <mat-select [(ngModel)]="selectedType" name="type">
+                        <mat-option *ngFor="let type of types" [value]="type.value">
+                          {{type.value}}
+                        </mat-option>
+                      </mat-select>
+                    </div>
+                  </ng-container>
+                  <ng-container *ngIf="row.type === 'text' && !rule.isEdit && !rule.isCreate">
+                    <span>{{ rule[row.value] !== undefined ? rule[row.value] : "N/A" }}</span>
+                  </ng-container>
+                  <!-- Text Type Ends Here -->
+                </td>
+                <!-- data-column Ends Here -->
+
+                <!-- Action Column Start -->
+                <td *ngIf="itemTable.actions.length > 0 && !rule.isEdit && !rule.isCreate" class="action-mat-icon pt-3 pb-3">
+                  <button [matMenuTriggerFor]="menu" mat-icon-button>
+                    <mat-icon>more_vert</mat-icon>
+                  </button>
+                  <mat-menu #menu="matMenu">
+                    <button (click)="performAction(action.type, dIndex)" *ngFor="let action of itemTable.actions" mat-menu-item>
+                      <mat-icon style="color:#cc000a">{{ action.icon }}</mat-icon>
+                      <span>{{ action.name }}</span>
+                    </button>
+                  </mat-menu>
+                </td>
+                <td *ngIf="rule.isCreate && !rule.isEdit" class="table-action-cell text-center">
+                  <button (click)="onCreateNewRow(dIndex)" [disabled]="!isKeywordAndFlow" class="ml-10 common-button"
+                    color="primary" mat-flat-button>
+                    CREATE
+                  </button>
+                </td>
+                <td *ngIf="!rule.isCreate && rule.isEdit" class="table-action-cell text-center">
+                  <button (click)="onEditRow(dIndex)" class="ml-10 common-button" color="primary" mat-flat-button>
+                    SAVE
+                  </button>
+                </td>
+                <!-- Action Column End -->
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <button type="submit" class="common-button submitt-btn mr-3" mat-flat-button color="primary">
+          Submit
+        </button>
+      </div>
+  </form>
+</ng-template>

@@ -1,0 +1,16 @@
+<div class="d-flex w-100">
+    <mat-form-field appearance="fill" class="w-100 input__label--disabled" floatLabel="never">
+      <input
+        matInput
+        type="text"
+        autocomplete="off"
+        (keyup)="search(searchInput.value, $event)"
+        #searchInput
+        placeholder="Search"
+      />
+    </mat-form-field>
+    <button mat-icon-button color="primary" (click)="search(searchInput.value)" class="ml-4 common-icon-div">
+      <img src="assets/img/search.svg" />
+    </button>
+</div>
+

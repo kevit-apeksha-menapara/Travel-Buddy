@@ -1,0 +1,41 @@
+.table-content{
+    background-color: white;
+    border-radius: 6px;
+    width: 100%;
+    position: relative
+}
+
+tr{
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.action-mat-icon{
+    mat-icon{
+        color:#cc000a;
+    }
+    button{
+        border: none;
+        background-color: transparent;
+    }
+}
+
+.icon-text {
+    height: 20px !important;
+    width: 20px !important;
+}
+
+.custom-table td,
+.custom-table th {
+  max-height: 40px;
+  min-height: 40px;
+}
+
+.custom-table th {
+  color: #cc000a;
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.table-cell{
+    color:#707070;
+}

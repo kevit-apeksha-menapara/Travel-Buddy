@@ -1,0 +1,99 @@
+<div class="common-container">
+    <div class="w-100 d-flex">
+       <div class="w-50">
+        <app-search class="w-100"></app-search>
+       </div>
+       <div class="w-25">
+        <button mat-icon-button class="common-icon-div ml-4" aria-label="add" (click)="openDialog(addHotelDetails, 'addHotel')">
+          <mat-icon>add</mat-icon>
+        </button>
+       </div>
+    </div>
+    <div>
+      <app-table
+      [data]="hotelData"
+      [table]="table"
+      (onAction)="onAction($event,addHotelDetails)"
+      >
+      </app-table>
+    </div>
+</div>
+  
+  <!-- addHotel form -->
+<ng-template #addHotelDetails>
+    <form [formGroup]="hotelForm">
+        <div class="d-flex">
+            <div class="w-50">
+                <div class="mb-4">
+                    <div class="common-form-label mb-2">Name</div>
+                    <mat-form-field appearance="fill" class="common-input-box">
+                        <input class="mat-input-element" matInput autocomplete="off" type="text"
+                            placeholder="Enter Name" formControlName="name" />
+                    </mat-form-field>
+                </div>
+                <div class="mb-4">
+                    <div class="common-form-label mb-2">Contact Number</div>
+                    <mat-form-field appearance="fill" class="common-input-box">
+                        <input class="mat-input-element" matInput autocomplete="off" type="text"
+                            placeholder="Enter Contact Number" formControlName="contactNumber" />
+                    </mat-form-field>
+                </div>
+                <div class="mb-4">
+                    <div class="common-form-label mb-2">Address</div>
+                    <mat-form-field floatLabel="never" appearance="fill" class="common-input-box">
+                        <input class="mat-input-element" matInput autocomplete="off" type="text"
+                            formControlName="address" placeholder="Enter Address" />
+                    </mat-form-field>
+                </div>
+                <div class="mb-4">
+                    <div class="common-form-label mb-2">State</div>
+                    <mat-form-field floatLabel="never" appearance="fill" class="common-input-box">
+                        <input class="mat-input-element" matInput autocomplete="off" type="text" formControlName="state"
+                            placeholder="State" />
+                    </mat-form-field>
+                </div>
+                <div class="mb-4">
+                    <div class="common-form-label mb-2">City</div>
+                    <mat-form-field floatLabel="never" appearance="fill" class="common-input-box">
+                        <input class="mat-input-element" matInput autocomplete="off" type="text" formControlName="city"
+                            placeholder="City" />
+                    </mat-form-field>
+                </div>   
+            </div>
+            <div class="w-50 ml-5">
+                <div class="mb-4">
+                    <div class="common-form-label mb-2">Pincode</div>
+                    <mat-form-field floatLabel="never" appearance="fill" class="common-input-box">
+                        <input class="mat-input-element" matInput autocomplete="off" type="text"
+                            formControlName="pincode" placeholder="Enter Pincode" />
+                    </mat-form-field>
+                </div>
+                <div class="mb-4">
+                    <div class="common-form-label mb-2">Latitude</div>
+                    <mat-form-field floatLabel="never" appearance="fill" class="common-input-box">
+                        <input class="mat-input-element" matInput autocomplete="off" type="number"
+                            formControlName="latitude" placeholder="latitude" />
+                    </mat-form-field>
+                </div>
+                <div class="mb-4">
+                    <div class="common-form-label mb-2">Longitude</div>
+                    <mat-form-field floatLabel="never" appearance="fill" class="common-input-box">
+                        <input class="mat-input-element" matInput autocomplete="off" type="number"
+                            formControlName="longitude" placeholder="longitude" />
+                    </mat-form-field>
+                </div>
+                <div class="mb-4">
+                    <div class="common-form-label mb-2">Cost per Night(2 Adults)</div>
+                    <mat-form-field floatLabel="never" appearance="fill" class="common-input-box">
+                        <input class="mat-input-element" matInput autocomplete="off" type="number"
+                            formControlName="cost" placeholder="Cost per Night" />
+                    </mat-form-field>
+                </div>
+                <button type="submit" class="common-button submitt-btn mr-3" mat-flat-button color="primary">
+                    Submit
+                </button>
+            </div>
+        </div>
+    </form>
+</ng-template>
+  

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from 'app/common-components/dialog/dialog.component';
+import { PlaceService } from 'app/services/place.service';
 import { ITable } from 'app/utils/model/table.data';
 
 @Component({
@@ -73,7 +74,8 @@ export class PlaceComponent implements OnInit {
     costKid: "10"
   }];
 
-  constructor(private dialog: MatDialog) { }
+  constructor(private dialog: MatDialog,
+              private placeService: PlaceService) { }
 
   ngOnInit(): void {
     this.placeForm = new FormGroup({
@@ -145,6 +147,27 @@ export class PlaceComponent implements OnInit {
         console.log("cancel clicked");
       }
     });
+  }
+
+  addPlace(){
+    console.log("clicked");
+    this.dialog.closeAll();
+    console.log(this.placeForm.value);
+    if(this.actionType == "addPlace"){
+      this.placeService
+        .postPlace({...this.placeForm.value})
+        .then(() => {
+          console.log("success");
+          // this._notificationService.sendNotification("success", "Usecase Created Successfully!");
+        })
+        .catch(err => {
+          console.log(err);
+          // this._notificationService.sendNotification(
+          //   "error",
+          //   err.error && err.error.description ? err.error.description : "Something went wrong!"
+          // );
+        });
+    }
   }
 
 }

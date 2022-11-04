@@ -36,5 +36,18 @@ export class PlaceService {
             );
         });
     }
+
+    editPlace(id,object:IPlace){
+      return new Promise((resolve, reject) => {
+          return this.http.post(this.placeServiceUrl + "/" + id, object).subscribe(
+            data => {
+              resolve(data);
+            },
+            err => {
+              reject(err);
+            }
+          );
+      });
+  }
 }
 

@@ -16,7 +16,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { PackageComponent } from './package/package.component';
 import { ItemComponent } from './item/item.component';
 import { MatMenuModule } from '@angular/material/menu';
-import { NotifyService } from './services/notify.service';
+// import { NotifyService } from './services/notify.service';
 
 
 @NgModule({
@@ -42,7 +42,9 @@ import { NotifyService } from './services/notify.service';
     TransferComponent,
     PackageComponent
   ],
-  providers: [NotifyService],
+  providers: [
+    // NotifyService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

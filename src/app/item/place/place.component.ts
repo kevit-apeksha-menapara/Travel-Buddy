@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from 'app/common-components/dialog/dialog.component';
-import { NotifyService } from 'app/services/notify.service';
+// import { NotifyService } from 'app/services/notify.service';
 import { PlaceService } from 'app/services/place.service';
 import { ITable } from 'app/utils/model/table.data';
 
@@ -75,10 +75,12 @@ export class PlaceComponent implements OnInit {
   //   costKid: "10"
   // }];
   placeData = [];
+  editIndex;
 
   constructor(private dialog: MatDialog,
               private placeService: PlaceService,
-              private notificationService: NotifyService) { }
+              // private notificationService: NotifyService
+              ) { }
 
   ngOnInit(): void {
     this.placeForm = new FormGroup({
@@ -100,6 +102,7 @@ export class PlaceComponent implements OnInit {
   onAction({type,index},templateRef?) {
     switch (type) {
       case "edit":
+        this.editIndex = index;
         this.openDialog(templateRef,"editPlace",index);
         break;
       case "delete":
@@ -112,6 +115,7 @@ export class PlaceComponent implements OnInit {
     if (type === "editPlace") {
       this.actionType = type;
       this.placeForm.reset();
+      this.placeForm.controls["name"].setValue(this.placeData[index].name);
       this.dialogRef = this.dialog.open(DialogComponent, {
         panelClass: "addUser",
         data: { title: "Edit Place", template: templateRef },
@@ -162,9 +166,9 @@ export class PlaceComponent implements OnInit {
         })
         .catch(err => {
           console.log(err);
-          this.notificationService.sendNotification(
-            "error", 
-            err.error && err.error.message ? err.error.message : "Something went wrong!");
+          // this.notificationService.sendNotification(
+          //   "error", 
+          //   err.error && err.error.message ? err.error.message : "Something went wrong!");
       });
   }
 
@@ -176,16 +180,30 @@ export class PlaceComponent implements OnInit {
         .addPlace({...this.placeForm.value})
         .then(() => {
           this.getPlace();
-          this.notificationService.sendNotification("success", "Place Created Successfully!");
+          // this.notificationService.sendNotification("success", "Place Created Successfully!");
         })
         .catch(err => {
           console.log(err);
-          this.notificationService.sendNotification(
-            "error",
-            err.error && err.error.description ? err.error.description : "Something went wrong!"
-          );
+          // this.notificationService.sendNotification(
+          //   "error",
+          //   err.error && err.error.description ? err.error.description : "Something went wrong!"
+          // );
         });
+    }else if (this.actionType === "editPlace") {
+      this.placeService
+        .editPlace(this.editIndex,{...this.placeForm.value})
+        .then(() => {
+          this.getPlace();
+          // this.notificationService.sendNotification("success", "Place Created Successfully!");
+        })
+        .catch(err => {
+          console.log(err);
+          // this.notificationService.sendNotification(
+          //   "error",
+          //   err.error && err.error.description ? err.error.description : "Something went wrong!"
+          // );
+        });
+        this.editIndex = null; 
     }
   }
-
 }

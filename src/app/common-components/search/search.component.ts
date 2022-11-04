@@ -13,7 +13,7 @@ export class SearchComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  search(value, event?) {
+  search(value, event?){
     if (event) {
       if (!event.srcElement.value.trim() && event.keyCode === 8) {
         this.searchEvent.emit("");

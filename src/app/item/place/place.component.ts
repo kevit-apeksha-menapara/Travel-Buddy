@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from 'app/common-components/dialog/dialog.component';
@@ -13,8 +13,9 @@ import { ITable } from 'app/utils/model/table.data';
 })
 export class PlaceComponent implements OnInit {
 
+  @ViewChild("deleteTemplate", { static: false })
+  isDeleteTemplateRef: TemplateRef<any>;
   placeForm;
-  actionType;
   dialogRef;
   table: ITable = {
     rows: [
@@ -43,18 +44,18 @@ export class PlaceComponent implements OnInit {
         value: "costKid"
       }
     ],
-    actions:[
-            {
-              type: "edit",
-              name: "Edit",
-              icon: "edit"
-            },
-            {
-              type: "delete",
-              name: "Delete",
-              icon: "delete"
-            }
-          ]
+    actions: [
+      {
+        type: "edit",
+        name: "Edit",
+        icon: "edit"
+      },
+      {
+        type: "delete",
+        name: "Delete",
+        icon: "delete"
+      }
+    ]
   };
   // placeData = [{
   //   name: "City Palace Udaipur",
@@ -75,54 +76,52 @@ export class PlaceComponent implements OnInit {
   //   costKid: "10"
   // }];
   placeData = [];
+  actionType;
   editIndex;
+  deleteIndex;
+  deleteData: any;
 
   constructor(private dialog: MatDialog,
-              private placeService: PlaceService,
-              // private notificationService: NotifyService
-              ) { }
+    private placeService: PlaceService,
+    // private notificationService: NotifyService
+  ) { }
 
   ngOnInit(): void {
-    this.placeForm = new FormGroup({
-      "name": new FormControl("",Validators.required),
-      "contactNumber": new FormControl("",Validators.required),
-      "address": new FormControl("",Validators.required),
-      "city": new FormControl("",Validators.required),
-      "state": new FormControl("",Validators.required),
-      "pincode": new FormControl("",Validators.required),
-      "latitude": new FormControl(""),
-      "longitude": new FormControl(""),
-      "costAdult": new FormControl("",Validators.required),
-      "costKid": new FormControl("",Validators.required) 
-    });
-
+    this.initForm();
     this.getPlace();
   }
 
-  onAction({type,index},templateRef?) {
+  initForm() {
+    this.placeForm = new FormGroup({
+      "name": new FormControl("" || this.placeData[this.editIndex]?.name, Validators.required),
+      "contactNumber": new FormControl("" || this.placeData[this.editIndex]?.contactNumber, Validators.required),
+      "address": new FormControl("" || this.placeData[this.editIndex]?.address, Validators.required),
+      "city": new FormControl("" || this.placeData[this.editIndex]?.city, Validators.required),
+      "state": new FormControl("" || this.placeData[this.editIndex]?.state, Validators.required),
+      "pincode": new FormControl("" || this.placeData[this.editIndex]?.pincode, Validators.required),
+      "latitude": new FormControl("" || this.placeData[this.editIndex]?.latitude),
+      "longitude": new FormControl("" || this.placeData[this.editIndex]?.longitude),
+      "costAdult": new FormControl("" || this.placeData[this.editIndex]?.costAdult, Validators.required),
+      "costKid": new FormControl("" || this.placeData[this.editIndex]?.costKid, Validators.required)
+    });
+  }
+
+  onAction({ type, index }, templateRef?) {
+    this.editIndex = index;
+    this.deleteIndex = index;
     switch (type) {
       case "edit":
-        this.editIndex = index;
-        this.openDialog(templateRef,"editPlace",index);
+        this.openDialog(templateRef, type);
         break;
       case "delete":
-        this.openDeleteDialog(index);
+        this.openDialog(this.isDeleteTemplateRef, type);
+        this.deleteData = this.placeData[index].name ? this.placeData[index].name : "";
         break;
     }
   }
 
-  openDialog(templateRef,type,index?){
-    if (type === "editPlace") {
-      this.actionType = type;
-      this.placeForm.reset();
-      this.placeForm.controls["name"].setValue(this.placeData[index].name);
-      this.dialogRef = this.dialog.open(DialogComponent, {
-        panelClass: "addUser",
-        data: { title: "Edit Place", template: templateRef },
-        height: "auto",
-        width: "60vw"
-      });
-    } else {
+  openDialog(templateRef, type) {
+    if (type === "addPlace") {
       this.actionType = type;
       this.placeForm.reset();
       this.dialogRef = this.dialog.open(DialogComponent, {
@@ -132,52 +131,49 @@ export class PlaceComponent implements OnInit {
         width: "60vw"
       });
     }
+    else if (type === "edit") {
+      this.initForm();
+      this.actionType = type;
+      this.dialogRef = this.dialog.open(DialogComponent, {
+        panelClass: "addUser",
+        data: { title: "Edit Place", template: templateRef },
+        height: "auto",
+        width: "60vw"
+      });
+    }
+    else if (type === "delete") {
+      this.dialogRef = this.dialog.open(DialogComponent, {
+        panelClass: "addUser",
+        data: {
+          title: "Delete Place",
+          template: this.isDeleteTemplateRef,
+        },
+        height: "auto",
+        width: "45vw"
+      });
+    }
   }
 
-  openDeleteDialog(index) {
-    this.dialogRef = this.dialog.open(DialogComponent, {
-      panelClass: "addUser",
-      data: {
-        title: "Delete",
-        template: undefined,
-        isDelete: true,
-        delete: {
-          text: this.placeData[index].name ? this.placeData[index].name : ""
-        }
-      },
-      height: "auto",
-      width: "40vw"
-    });
-    this.dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        console.log(result);
-      }
-      else{
-        console.log("cancel clicked");
-      }
-    });
-  }
-
-  getPlace(){
+  getPlace() {
     this.placeService
       .getPlace()
-        .then((res:any) => {
-          this.placeData = res;
-        })
-        .catch(err => {
-          console.log(err);
-          // this.notificationService.sendNotification(
-          //   "error", 
-          //   err.error && err.error.message ? err.error.message : "Something went wrong!");
+      .then((res: any) => {
+        this.placeData = res;
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err);
+        // this.notificationService.sendNotification(
+        //   "error", 
+        //   err.error && err.error.message ? err.error.message : "Something went wrong!");
       });
   }
 
-  addPlace(){
+  addPlace() {
     this.dialog.closeAll();
-    console.log(this.placeForm.value);
-    if(this.actionType == "addPlace"){
+    if (this.actionType === "addPlace") {
       this.placeService
-        .addPlace({...this.placeForm.value})
+        .addPlace({ ...this.placeForm.value })
         .then(() => {
           this.getPlace();
           // this.notificationService.sendNotification("success", "Place Created Successfully!");
@@ -189,12 +185,12 @@ export class PlaceComponent implements OnInit {
           //   err.error && err.error.description ? err.error.description : "Something went wrong!"
           // );
         });
-    }else if (this.actionType === "editPlace") {
+    } else {
       this.placeService
-        .editPlace(this.editIndex,{...this.placeForm.value})
+        .editPlace(this.placeData[this.editIndex].id, { ...this.placeForm.value })
         .then(() => {
           this.getPlace();
-          // this.notificationService.sendNotification("success", "Place Created Successfully!");
+          // this.notificationService.sendNotification("success", "Place Updated Successfully!");
         })
         .catch(err => {
           console.log(err);
@@ -203,7 +199,28 @@ export class PlaceComponent implements OnInit {
           //   err.error && err.error.description ? err.error.description : "Something went wrong!"
           // );
         });
-        this.editIndex = null; 
+      this.editIndex = null;
     }
+  }
+
+  onCancel() {
+    this.dialog.closeAll();
+  }
+
+  onDeletePlace() {
+    this.placeService
+      .deletePlace(this.placeData[this.deleteIndex].id)
+      .then(() => {
+        // this.notificationService.sendNotification("success", "Place has been deleted successfully!");
+        this.getPlace();
+      })
+      .catch(err => {
+        // this.notificationService.sendNotification(
+        //   "error",
+        //   err.error && err.error.message ? err.error.message : "Something went wrong!"
+        // );
+        this.deleteIndex = null;
+      });
+
   }
 }

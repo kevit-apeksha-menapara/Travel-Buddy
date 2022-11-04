@@ -1,25 +1,25 @@
 <div class="common-container">
     <div class="w-100 d-flex">
-       <div class="w-50">
-        <app-search class="w-100"></app-search>
-       </div>
-       <div class="w-25">
-        <button mat-icon-button class="common-icon-div ml-4" aria-label="add" (click)="openDialog(addHotelDetails, 'addHotel')">
-          <mat-icon>add</mat-icon>
-        </button>
-       </div>
+        <div class="w-50">
+            <app-search class="w-100"></app-search>
+        </div>
+        <div class="w-25">
+            <button mat-icon-button class="common-icon-div ml-4" aria-label="add"
+                (click)="openDialog(addHotelDetails, 'addHotel')">
+                <mat-icon>add</mat-icon>
+            </button>
+        </div>
     </div>
     <div>
-      <app-table
-      [data]="hotelData"
-      [table]="table"
-      (onAction)="onAction($event,addHotelDetails)"
-      >
-      </app-table>
+        <app-table [data]="hotelData" [table]="table" (onAction)="onAction($event,addHotelDetails)">
+        </app-table>
     </div>
+    <ng-container *ngIf="!hotelData.length">
+        <div class="text-center mt-5 font-weight-bolder">No Records Found</div>
+    </ng-container>
 </div>
-  
-  <!-- addHotel form -->
+
+<!-- addHotel form -->
 <ng-template #addHotelDetails>
     <form [formGroup]="hotelForm">
         <div class="d-flex">
@@ -58,7 +58,7 @@
                         <input class="mat-input-element" matInput autocomplete="off" type="text" formControlName="city"
                             placeholder="City" />
                     </mat-form-field>
-                </div>   
+                </div>
             </div>
             <div class="w-50 ml-5">
                 <div class="mb-4">
@@ -89,11 +89,31 @@
                             formControlName="cost" placeholder="Cost per Night" />
                     </mat-form-field>
                 </div>
-                <button type="submit" class="common-button submitt-btn mr-3" mat-flat-button color="primary">
+                <button type="submit" class="common-button submitt-btn mr-3" (click)="addHotel()" mat-flat-button
+                    color="primary">
                     Submit
                 </button>
             </div>
         </div>
     </form>
 </ng-template>
-  
+
+<!-- delete template -->
+<ng-template #deleteTemplate>
+    <div>
+        <div class="delete-text mb-3">
+            Are you sure you want to delete
+            <b>{{ deleteData }} ?</b>
+        </div>
+        <mat-dialog-actions style="float:right">
+            <button mat-stroked-button color="accent" class="common-button-secondary" (click)="onCancel()"
+                [mat-dialog-close]="false" mat-dialog-close>
+                Cancel
+            </button>
+            <button [mat-dialog-close]="true" cdkFocusInitial mat-flat-button color="primary" (click)="onDeleteHotel()"
+                class="common-button ml-2">
+                Delete
+            </button>
+        </mat-dialog-actions>
+    </div>
+</ng-template>

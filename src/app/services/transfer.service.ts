@@ -1,19 +1,19 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { IPlace } from "app/utils/model/place";
+import { ITransfer } from "app/utils/model/transfer";
 
 @Injectable({
   providedIn: 'root',
 })
 
-export class PlaceService {
-  placeServiceUrl = 'http://localhost:4000/place';
+export class TransferService {
+  transferServiceUrl = 'http://localhost:4000/transfer';
 
   constructor(private http: HttpClient) { }
 
-  getPlace() {
+  getTransfer() {
     return new Promise((resolve, reject) => {
-      return this.http.get(this.placeServiceUrl).subscribe(
+      return this.http.get(this.transferServiceUrl).subscribe(
         data => {
           resolve(data);
         },
@@ -24,9 +24,9 @@ export class PlaceService {
     });
   }
 
-  addPlace(object: IPlace) {
+  addTransfer(object: ITransfer) {
     return new Promise((resolve, reject) => {
-      return this.http.post(this.placeServiceUrl, object).subscribe(
+      return this.http.post(this.transferServiceUrl, object).subscribe(
         data => {
           resolve(data);
         },
@@ -37,9 +37,9 @@ export class PlaceService {
     });
   }
 
-  editPlace(id, object: IPlace) {
+  editTransfer(id, object: ITransfer) {
     return new Promise((resolve, reject) => {
-      return this.http.put(this.placeServiceUrl + "/" + id, object).subscribe(
+      return this.http.put(this.transferServiceUrl + "/" + id, object).subscribe(
         data => {
           resolve(data);
         },
@@ -50,9 +50,9 @@ export class PlaceService {
     });
   }
 
-  deletePlace(id) {
+  deleteTransfer(id) {
     return new Promise((resolve, reject) => {
-      return this.http.delete(this.placeServiceUrl + "/" + id).subscribe(
+      return this.http.delete(this.transferServiceUrl + "/" + id).subscribe(
         data => {
           resolve(data);
         },

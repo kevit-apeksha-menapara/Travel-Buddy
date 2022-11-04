@@ -1,19 +1,19 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { IPlace } from "app/utils/model/place";
+import { IHotel } from "app/utils/model/hotel";
 
 @Injectable({
   providedIn: 'root',
 })
 
-export class PlaceService {
-  placeServiceUrl = 'http://localhost:4000/place';
+export class HotelService {
+  hotelServiceUrl = 'http://localhost:4000/hotel';
 
   constructor(private http: HttpClient) { }
 
-  getPlace() {
+  getHotel() {
     return new Promise((resolve, reject) => {
-      return this.http.get(this.placeServiceUrl).subscribe(
+      return this.http.get(this.hotelServiceUrl).subscribe(
         data => {
           resolve(data);
         },
@@ -24,9 +24,9 @@ export class PlaceService {
     });
   }
 
-  addPlace(object: IPlace) {
+  addHotel(object: IHotel) {
     return new Promise((resolve, reject) => {
-      return this.http.post(this.placeServiceUrl, object).subscribe(
+      return this.http.post(this.hotelServiceUrl, object).subscribe(
         data => {
           resolve(data);
         },
@@ -37,9 +37,9 @@ export class PlaceService {
     });
   }
 
-  editPlace(id, object: IPlace) {
+  editHotel(id, object: IHotel) {
     return new Promise((resolve, reject) => {
-      return this.http.put(this.placeServiceUrl + "/" + id, object).subscribe(
+      return this.http.put(this.hotelServiceUrl + "/" + id, object).subscribe(
         data => {
           resolve(data);
         },
@@ -50,9 +50,9 @@ export class PlaceService {
     });
   }
 
-  deletePlace(id) {
+  deleteHotel(id) {
     return new Promise((resolve, reject) => {
-      return this.http.delete(this.placeServiceUrl + "/" + id).subscribe(
+      return this.http.delete(this.hotelServiceUrl + "/" + id).subscribe(
         data => {
           resolve(data);
         },

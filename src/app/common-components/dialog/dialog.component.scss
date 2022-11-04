@@ -25,7 +25,7 @@
   }
   .dialog-body {
     margin: 10px 0;
-    overflow: auto;
+    // overflow: auto;
     height: fit-content;
     max-height: calc(95vh - 81.5px);
     mat-dialog-actions {
@@ -33,22 +33,4 @@
     }
   }
 }
-//Delete Modal
-.delete-text {
-  font-size: 18px;
-  color: #707070;;
-  font-weight: 500;
-  word-break: break-word;
-}
-.list-delete {
-  max-height: 200px;
-  overflow: auto;
-  padding-bottom: 10px;
-  margin-bottom: 10px;
-}
-.single-delete-item {
-  padding: 10px;
-  background-color: #edf2f6;
-  color: #4e4f50;
-  margin-top: 10px;
-}
+

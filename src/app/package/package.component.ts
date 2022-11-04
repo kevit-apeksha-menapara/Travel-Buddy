@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from 'app/common-components/dialog/dialog.component';
@@ -11,8 +11,9 @@ import { ITable } from 'app/utils/model/table.data';
 })
 export class PackageComponent implements OnInit {
 
+  @ViewChild("deleteTemplate", { static: false })
+  isDeleteTemplateRef: TemplateRef<any>;
   packageForm;
-  actionType;
   dialogRef;
   table: ITable = {
     rows: [
@@ -41,18 +42,18 @@ export class PackageComponent implements OnInit {
         value: "amount"
       }
     ],
-    actions:[
-            {
-              type: "edit",
-              name: "Edit",
-              icon: "edit"
-            },
-            {
-              type: "delete",
-              name: "Delete",
-              icon: "delete"
-            }
-          ]
+    actions: [
+      {
+        type: "edit",
+        name: "Edit",
+        icon: "edit"
+      },
+      {
+        type: "delete",
+        name: "Delete",
+        icon: "delete"
+      }
+    ]
   };
   itemTable: ITable = {
     rows: [
@@ -81,18 +82,18 @@ export class PackageComponent implements OnInit {
         value: "subTotal"
       }
     ],
-    actions:[
-            {
-              type: "edit",
-              name: "Edit",
-              icon: "edit"
-            },
-            {
-              type: "delete",
-              name: "Delete",
-              icon: "delete"
-            }
-          ]
+    actions: [
+      {
+        type: "edit",
+        name: "Edit",
+        icon: "edit"
+      },
+      {
+        type: "delete",
+        name: "Delete",
+        icon: "delete"
+      }
+    ]
   };
   packageData = [{
     name: "Exquisite Udaipur",
@@ -107,6 +108,7 @@ export class PackageComponent implements OnInit {
     amount: "60,000"
   }
   ];
+  // packageData = [];
   data = [{
     type: "Hotel",
     details1: "Fern",
@@ -133,75 +135,74 @@ export class PackageComponent implements OnInit {
   {
     value: "Transfer"
   }];
+  actionType;
+  editIndex;
+  deleteIndex;
+  deleteData: any;
+
   constructor(private dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.packageForm = new FormGroup({
-      "name": new FormControl("",Validators.required),
-      "days": new FormControl("",Validators.required)
+      "name": new FormControl("", Validators.required),
+      "days": new FormControl("", Validators.required)
     });
   }
 
-  onAction({type,index},templateRef?) {
+  onAction({ type, index }, templateRef?) {
+    this.editIndex = index;
+    this.deleteIndex = index;
     switch (type) {
       case "edit":
-        this.openDialog(templateRef,"editPackage",index);
+        this.openDialog(templateRef, type);
         break;
       case "delete":
-        this.openDeleteDialog(index);
+        this.openDialog(this.isDeleteTemplateRef, type);
+        this.deleteData = this.packageData[index].name ? this.packageData[index].name : "";
         break;
     }
   }
 
-  openDialog(templateRef,type,index?){
-    if (type === "editPackage") {
-      this.actionType = type;
-      this.packageForm.reset();
-      this.dialogRef = this.dialog.open(DialogComponent, {
-        panelClass: "addUser",
-        data: { title: "Edit Package", template: templateRef },
-        height: "auto",
-        width: "60vw"
-      });
-    } else {
+  openDialog(templateRef, type) {
+    if (type === "addPackage") {
       this.actionType = type;
       this.packageForm.reset();
       this.dialogRef = this.dialog.open(DialogComponent, {
         panelClass: "addUser",
         data: { title: "Add Package", template: templateRef },
         height: "auto",
-        width: "70vw"
+        width: "60vw"
+      });
+    }
+    else if (type === "edit") {
+      // this.initForm();
+      this.actionType = type;
+      this.dialogRef = this.dialog.open(DialogComponent, {
+        panelClass: "addUser",
+        data: { title: "Edit Package", template: templateRef },
+        height: "auto",
+        width: "60vw"
+      });
+    }
+    else if (type === "delete") {
+      this.dialogRef = this.dialog.open(DialogComponent, {
+        panelClass: "addUser",
+        data: {
+          title: "Delete Package",
+          template: this.isDeleteTemplateRef,
+        },
+        height: "auto",
+        width: "45vw"
       });
     }
   }
-
-  openDeleteDialog(index) {
-    this.dialogRef = this.dialog.open(DialogComponent, {
-      panelClass: "addUser",
-      data: {
-        title: "Delete",
-        template: undefined,
-        isDelete: true,
-        delete: {
-          text: this.packageData[index].name ? this.packageData[index].name : ""
-        }
-      },
-      height: "auto",
-      width: "40vw"
-    });
-    this.dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        console.log(result);
-      }
-      else{
-        console.log("cancel clicked");
-      }
-    });
-  }
-
-  addItem(){
+  addItem() {
     this.data[0].isCreate = true;
     this.data[0].isEdit = false;
+  }
+
+  onCancel() {
+    this.dialog.closeAll();
   }
 
 }

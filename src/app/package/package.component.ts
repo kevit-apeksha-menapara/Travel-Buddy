@@ -70,13 +70,19 @@ export class PackageComponent implements OnInit {
         value: "details1"
       },
       {
-        width: 20,
+        width: 10,
         type: "text",
         name: "",
         value: "details2"
       },
       {
-        width: 20,
+        width: 10,
+        type: "text",
+        name: "",
+        value: "details3"
+      },
+      {
+        width: 15,
         type: "text",
         name: "Sub Total",
         value: "subTotal"
@@ -113,17 +119,15 @@ export class PackageComponent implements OnInit {
     type: "Hotel",
     details1: "Fern",
     details2: "5",
-    subTotal: "5000",
-    isEdit: false,
-    isCreate: false
+    details3: "",
+    subTotal: "5000"
   },
   {
     type: "Hotel",
     details1: "Fern",
     details2: "5",
-    subTotal: "5000",
-    isEdit: false,
-    isCreate: false
+    details3: "",
+    subTotal: "5000"
   }
   ];
   types = [{
@@ -139,6 +143,7 @@ export class PackageComponent implements OnInit {
   editIndex;
   deleteIndex;
   deleteData: any;
+  selectedType;
 
   constructor(private dialog: MatDialog) { }
 
@@ -197,8 +202,14 @@ export class PackageComponent implements OnInit {
     }
   }
   addItem() {
-    this.data[0].isCreate = true;
-    this.data[0].isEdit = false;
+    const newRow = {
+    type: "",
+    details1: "",
+    details2: "",
+    details3: "",
+    subTotal: "",
+    isCreate: true}
+    this.data = [newRow,...this.data];
   }
 
   onCancel() {

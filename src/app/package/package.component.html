@@ -58,27 +58,72 @@
           <tbody>
             <tr *ngFor="let rule of data; let dIndex = index" class="table-column">
               <!-- data-column Starts Here -->
-              <td *ngFor="let row of itemTable.rows; index as rIndex" [width]="row.width + '%'" class="column">
-                <!-- Text Type Starts Here -->
-                <ng-container *ngIf="row.type === 'text' && (rule.isEdit || rule.isCreate)">
+              <td [width]="itemTable.rows[0].width + '%'" class="column">
+                <ng-container *ngIf="rule.isEdit || rule.isCreate">
                   <div class="w-100">
-                    <mat-select [(ngModel)]="selectedType" name="type">
-                      <mat-option *ngFor="let type of types" [value]="type.value">
-                        {{type.value}}
-                      </mat-option>
-                    </mat-select>
+                      <mat-select [(ngModel)]="selectedType" placeholder="Select item">
+                        <mat-option *ngFor="let type of types" [value]="type.value">
+                          {{type.value}}
+                        </mat-option>
+                      </mat-select>
                   </div>
                 </ng-container>
-                <ng-container *ngIf="row.type === 'text' && !rule.isEdit && !rule.isCreate">
-                  <span>{{ rule[row.value] !== undefined ? rule[row.value] : "N/A" }}</span>
+                <ng-container *ngIf="!rule.isEdit && !rule.isCreate">
+                  <span>{{ rule[itemTable.rows[0].value] !== undefined ? rule[itemTable.rows[0].value] : "N/A" }}</span>
                 </ng-container>
-                <!-- Text Type Ends Here -->
+              </td>
+              <td [width]="itemTable.rows[1].width + '%'" class="column">
+                <ng-container *ngIf="rule.isEdit || rule.isCreate">
+                  <div class="w-100">
+                      <mat-select [(ngModel)]="selectedType" placeholder="Select item">
+                        <mat-option *ngFor="let type of types" [value]="type.value">
+                          {{type.value}}
+                        </mat-option>
+                      </mat-select>
+                  </div>
+                </ng-container>
+                <ng-container *ngIf="!rule.isEdit && !rule.isCreate">
+                  <span>{{ rule[itemTable.rows[1].value] !== undefined ? rule[itemTable.rows[1].value] : "N/A" }}</span>
+                </ng-container>
+              </td>
+              <td [width]="itemTable.rows[2].width + '%'" class="column">
+                <ng-container *ngIf="rule.isEdit || rule.isCreate">
+                  <div class="w-100">
+                      <mat-select [(ngModel)]="selectedType" placeholder="Select item">
+                        <mat-option *ngFor="let type of types" [value]="type.value">
+                          {{type.value}}
+                        </mat-option>
+                      </mat-select>
+                  </div>
+                </ng-container>
+                <ng-container *ngIf="!rule.isEdit && !rule.isCreate">
+                  <span>{{ rule[itemTable.rows[2].value] !== undefined ? rule[itemTable.rows[2].value] : "N/A" }}</span>
+                </ng-container>
+              </td>
+              <td [width]="itemTable.rows[3].width + '%'" class="column">
+                <ng-container *ngIf=" (rule.isEdit || rule.isCreate)">
+                  <div class="w-100">
+                      <mat-select [(ngModel)]="selectedType" placeholder="Select item">
+                        <mat-option *ngFor="let type of types" [value]="type.value">
+                          {{type.value}}
+                        </mat-option>
+                      </mat-select>
+                  </div>
+                </ng-container>
+                <ng-container *ngIf="!rule.isEdit && !rule.isCreate">
+                  <span>{{ rule[itemTable.rows[3].value] !== undefined ? rule[itemTable.rows[3].value] : "N/A" }}</span>
+                </ng-container>
+              </td>
+              <td [width]="itemTable.rows[4].width + '%'" class="column">
+                <ng-container *ngIf="!rule.isEdit && !rule.isCreate">
+                  <span>{{ rule[itemTable.rows[4].value] !== undefined ? rule[itemTable.rows[4].value] : "N/A" }}</span>
+                </ng-container>
               </td>
               <!-- data-column Ends Here -->
 
               <!-- Action Column Start -->
               <td *ngIf="itemTable.actions.length > 0 && !rule.isEdit && !rule.isCreate"
-                class="action-mat-icon pt-3 pb-3">
+                class="action-mat-icon pl-4">
                 <button [matMenuTriggerFor]="menu" mat-icon-button>
                   <mat-icon>more_vert</mat-icon>
                 </button>
@@ -93,12 +138,12 @@
               <td *ngIf="rule.isCreate && !rule.isEdit" class="table-action-cell text-center">
                 <button (click)="onCreateNewRow(dIndex)" [disabled]="!isKeywordAndFlow" class="ml-10 common-button"
                   color="primary" mat-flat-button>
-                  CREATE
+                  Create
                 </button>
               </td>
               <td *ngIf="!rule.isCreate && rule.isEdit" class="table-action-cell text-center">
                 <button (click)="onEditRow(dIndex)" class="ml-10 common-button" color="primary" mat-flat-button>
-                  SAVE
+                  Save
                 </button>
               </td>
               <!-- Action Column End -->

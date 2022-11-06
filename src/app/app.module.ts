@@ -16,6 +16,9 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { PackageComponent } from './package/package.component';
 import { ItemComponent } from './item/item.component';
 import { MatMenuModule } from '@angular/material/menu';
+import {MatSelectModule} from '@angular/material/select';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 // import { NotifyService } from './services/notify.service';
 
 
@@ -31,7 +34,10 @@ import { MatMenuModule } from '@angular/material/menu';
     MatIconModule,
     SharedModule,
     MatDialogModule,
-    MatMenuModule
+    MatMenuModule,
+    MatSelectModule,
+    MatInputModule
+    // MatFormFieldModule
   ],
   declarations: [
     AppComponent,

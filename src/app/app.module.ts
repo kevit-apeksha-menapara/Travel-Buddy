@@ -36,8 +36,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     MatDialogModule,
     MatMenuModule,
     MatSelectModule,
-    MatInputModule
-    // MatFormFieldModule
+    MatInputModule,
+    MatFormFieldModule
   ],
   declarations: [
     AppComponent,

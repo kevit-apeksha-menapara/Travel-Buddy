@@ -3,11 +3,11 @@
 /*Input variants -- Start*/
 
 .mat-form-field {
-  line-height: unset;
+  line-height: unset !important;
 }
 
 .mat-form-field-appearance-fill .mat-form-field-underline::before {
-  background-color: transparent;
+  background-color: transparent !important;
 }
 
 .mat-form-field-appearance-fill .mat-form-field-flex {
@@ -26,12 +26,12 @@
 
 /*White*/
 .mat-form-field-appearance-fill .mat-form-field-flex {
-  background-color: white;
+  background-color: white !important;
 }
 
 /*Accent*/
 .mat-form-field-appearance-fill.accent .mat-form-field-flex {
-  background-color: #edf2f6;
+  background-color: #edf2f6 !important;
 }
 
 /*Label*/
@@ -83,13 +83,13 @@
 /*Input variants -- End*/
 
 /*Option*/
-mat-option {
-  .mat-option-text {
-    display: flex;
-    align-items: center;
-    font-size: 14px;
-  }
-}
+// mat-option {
+//   .mat-option-text {
+//     display: flex;
+//     align-items: center;
+//     font-size: 14px;
+//   }
+// }
 
 /*Checkbox*/
 .mat-checkbox-background,
@@ -98,9 +98,9 @@ mat-option {
 }
 
 /*Select*/
-.mat-form-field-appearance-fill .mat-select-arrow-wrapper {
-  transform: none !important;
-}
+// .mat-form-field-appearance-fill .mat-select-arrow-wrapper {
+//   transform: none !important;
+// }
 
 
 

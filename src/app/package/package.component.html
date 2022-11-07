@@ -21,8 +21,8 @@
 
 <!-- addPackage form -->
 <ng-template #addPackageDetails>
-  <form [formGroup]="packageForm">
     <div>
+      <form [formGroup]="packageForm">
       <div class="d-flex w-100 mb-4">
         <div class="w-50">
           <div class="common-form-label mb-2">Name</div>
@@ -31,7 +31,7 @@
               formControlName="name" />
           </mat-form-field>
         </div>
-        <div class="w-50">
+        <div class="w-50 ml-5">
           <div class="common-form-label mb-2">No. of Days</div>
           <mat-form-field appearance="fill" class="common-input-box">
             <input class="mat-input-element" matInput autocomplete="off" type="text" placeholder="Enter No. of Days"
@@ -39,9 +39,10 @@
           </mat-form-field>
         </div>
       </div>
+    </form>
       <div class="d-flex mb-4">
         <span class="common-form-label pt-2">Items</span>
-        <button mat-icon-button class="common-icon-div item-add-btn mr-2" aria-label="add" (click)="addItem()">
+        <button mat-icon-button class="common-icon-div item-add-btn" aria-label="add" (click)="addItem()">
           <mat-icon>add</mat-icon>
         </button>
       </div>
@@ -61,7 +62,7 @@
               <td [width]="itemTable.rows[0].width + '%'" class="column">
                 <ng-container *ngIf="rule.isEdit || rule.isCreate">
                   <div class="w-100">
-                      <mat-select [(ngModel)]="selectedType" placeholder="Select item">
+                      <mat-select [(ngModel)]="selectedType" (ngModelChange)="handleName()" placeholder="Select item">
                         <mat-option *ngFor="let type of types" [value]="type.value">
                           {{type.value}}
                         </mat-option>
@@ -73,11 +74,20 @@
                 </ng-container>
               </td>
               <td [width]="itemTable.rows[1].width + '%'" class="column">
-                <ng-container *ngIf="rule.isEdit || rule.isCreate">
+                <ng-container *ngIf="(rule.isEdit || rule.isCreate) && (selectedType == 'Hotel' || selectedType == 'Place')">
                   <div class="w-100">
-                      <mat-select [(ngModel)]="selectedType" placeholder="Select item">
-                        <mat-option *ngFor="let type of types" [value]="type.value">
-                          {{type.value}}
+                      <mat-select [(ngModel)]="selectedName" placeholder="Select name">
+                        <mat-option *ngFor="let name of names" [value]="name">
+                          {{name}}
+                        </mat-option>
+                      </mat-select>
+                  </div>
+                </ng-container>
+                <ng-container *ngIf="(rule.isEdit || rule.isCreate) && selectedType == 'Transfer'">
+                  <div class="w-100">
+                      <mat-select [(ngModel)]="selectedTransfer" placeholder="Select transfer">
+                        <mat-option *ngFor="let transfer of transfers" [value]="transfer">
+                          {{transfer}}
                         </mat-option>
                       </mat-select>
                   </div>
@@ -87,25 +97,32 @@
                 </ng-container>
               </td>
               <td [width]="itemTable.rows[2].width + '%'" class="column">
-                <ng-container *ngIf="rule.isEdit || rule.isCreate">
-                  <div class="w-100">
-                      <mat-select [(ngModel)]="selectedType" placeholder="Select item">
-                        <mat-option *ngFor="let type of types" [value]="type.value">
-                          {{type.value}}
+                <ng-container *ngIf="(rule.isEdit || rule.isCreate) && (selectedType == 'Place' || selectedType == 'Hotel')">
+                  <div class="w-100" *ngIf="selectedType == 'Hotel'">
+                      <mat-select [(ngModel)]="selectedDays" placeholder="Select days">
+                        <mat-option *ngFor="let number of numbers" [value]="number">
+                          {{number}}
                         </mat-option>
                       </mat-select>
                   </div>
+                  <div class="w-100" *ngIf="selectedType == 'Place'">
+                    <mat-select [(ngModel)]="selectedAdults" placeholder="No. of Adults">
+                      <mat-option *ngFor="let number of numbers" [value]="number">
+                        {{number}}
+                      </mat-option>
+                    </mat-select>
+                </div>
                 </ng-container>
                 <ng-container *ngIf="!rule.isEdit && !rule.isCreate">
                   <span>{{ rule[itemTable.rows[2].value] !== undefined ? rule[itemTable.rows[2].value] : "N/A" }}</span>
                 </ng-container>
               </td>
               <td [width]="itemTable.rows[3].width + '%'" class="column">
-                <ng-container *ngIf=" (rule.isEdit || rule.isCreate)">
+                <ng-container *ngIf=" selectedType == 'Place' && (rule.isEdit || rule.isCreate)">
                   <div class="w-100">
-                      <mat-select [(ngModel)]="selectedType" placeholder="Select item">
-                        <mat-option *ngFor="let type of types" [value]="type.value">
-                          {{type.value}}
+                      <mat-select [(ngModel)]="selectedKids" placeholder="No. of Kids">
+                        <mat-option *ngFor="let number of numbers" [value]="number">
+                          {{number}}
                         </mat-option>
                       </mat-select>
                   </div>
@@ -125,7 +142,7 @@
               <td *ngIf="itemTable.actions.length > 0 && !rule.isEdit && !rule.isCreate"
                 class="action-mat-icon pl-4">
                 <button [matMenuTriggerFor]="menu" mat-icon-button>
-                  <mat-icon>more_vert</mat-icon>
+                  <mat-icon class="action-row">more_vert</mat-icon>
                 </button>
                 <mat-menu #menu="matMenu">
                   <button (click)="performAction(action.type, dIndex)" *ngFor="let action of itemTable.actions"
@@ -151,11 +168,10 @@
           </tbody>
         </table>
       </div>
-      <button type="submit" class="common-button submitt-btn mr-3" (click)="addPackage()" mat-flat-button color="primary">
+      <button type="submit" class="common-button submitt-btn" (click)="addPackage()" mat-flat-button color="primary">
         Submit
       </button>
     </div>
-  </form>
 </ng-template>
 
 <!-- delete template -->
@@ -177,3 +193,4 @@
     </mat-dialog-actions>
   </div>
 </ng-template>
+

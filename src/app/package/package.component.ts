@@ -2,6 +2,9 @@ import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from 'app/common-components/dialog/dialog.component';
+import { HotelService } from 'app/services/hotel.service';
+import { PlaceService } from 'app/services/place.service';
+import { TransferService } from 'app/services/transfer.service';
 import { ITable } from 'app/utils/model/table.data';
 
 @Component({
@@ -115,21 +118,22 @@ export class PackageComponent implements OnInit {
   }
   ];
   // packageData = [];
-  data = [{
-    type: "Hotel",
-    details1: "Fern",
-    details2: "5",
-    details3: "",
-    subTotal: "5000"
-  },
-  {
-    type: "Hotel",
-    details1: "Fern",
-    details2: "5",
-    details3: "",
-    subTotal: "5000"
-  }
-  ];
+  // data = [{
+  //   type: "Hotel",
+  //   details1: "Fern",
+  //   details2: "5",
+  //   details3: "",
+  //   subTotal: "5000"
+  // },
+  // {
+  //   type: "Hotel",
+  //   details1: "Fern",
+  //   details2: "5",
+  //   details3: "",
+  //   subTotal: "5000"
+  // }
+  // ];
+  data = [];
   types = [{
     value: "Hotel"
   },
@@ -144,14 +148,53 @@ export class PackageComponent implements OnInit {
   deleteIndex;
   deleteData: any;
   selectedType;
+  names;
+  transfers;
+  numbers=["1","2","3","4","5","6","7","8","9","10"];
 
-  constructor(private dialog: MatDialog) { }
+  constructor(private dialog: MatDialog,
+              private placeService: PlaceService,
+              private hotelService: HotelService,
+              private transferService: TransferService) { }
 
   ngOnInit(): void {
     this.packageForm = new FormGroup({
       "name": new FormControl("", Validators.required),
       "days": new FormControl("", Validators.required)
     });
+  }
+
+  handleName() {
+    if (this.selectedType == "Hotel") {
+      this.hotelService.getHotel()
+        .then((res: any) => {
+          this.names = res.map(a => a.name);
+          console.log(this.names);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
+    else if (this.selectedType == "Place") {
+      this.placeService.getPlace()
+        .then((res: any) => {
+          this.names = res.map(a => a.name);
+          console.log(this.names);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
+    else if(this.selectedType == 'Transfer'){
+      this.transferService.getTransfer()
+      .then((res: any) => {
+        this.transfers = res.map(a => a.name);
+        console.log(this.transfers);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+    }
   }
 
   onAction({ type, index }, templateRef?) {
